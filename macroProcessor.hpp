@@ -16,12 +16,17 @@ class MacroProcessor{
 
         bool readFile(ifstream *file);
 
+		void push(string value); 
+
+        void passOne();
+
 		void createOutputFile(string fileName);
 
 	protected:
 		vector<string> output;
 		vector<string> input;
 		vector<string> macro;
+		vector<string> variableNames;
 		ofstream outFile;
 };
 #endif

@@ -1,5 +1,3 @@
-// Programa principal para testar o analisador léxico
-
 #include <iostream>
 #include <string.h>
 #include <fstream>
@@ -27,6 +25,8 @@ int main(){
   	}
 
     cout << fileName + " aberto" << endl;
+    
+    macro.passOne();
 
     macro.createOutputFile(fileName);
 
