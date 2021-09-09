@@ -10,10 +10,22 @@ using namespace std;
 
 MacroProcessor::MacroProcessor() { }
 
-bool MacroProcessor::readFile(ifstream *file ){ 
+bool MacroProcessor::readFile(ifstream *file){ 
     if (file){  
         return true;
     } else {
         return false;
+    }
+}
+
+void MacroProcessor::createFile(string fileName){
+    int j = 0;
+
+    outFile.open("  " + fileName);
+
+    for (int i = 0; i < output.size(); i++) {
+        if (output[i] != " " && output[i] != "" && output[i] != ";") {
+            outFile << output[i] << " ";
+        }
     }
 }

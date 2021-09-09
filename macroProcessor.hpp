@@ -14,11 +14,13 @@ class MacroProcessor{
     public:
         MacroProcessor();
 
-        bool readFile(ifstream *arq);
+        bool readFile(ifstream *file);
+        
+		void createFile(string fileName);
 
 	protected:
-		vector<string> saida;
-		vector<string> entrada;
+		vector<string> output;
+		vector<string> input;
 		vector<string> macro;
 		ofstream outFile;
 };
