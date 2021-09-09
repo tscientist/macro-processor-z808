@@ -18,7 +18,7 @@ bool MacroProcessor::readFile(ifstream *file){
     }
 }
 
-void MacroProcessor::createFile(string fileName){
+void MacroProcessor::createOutputFile(string fileName){
     int j = 0;
 
     outFile.open("  " + fileName);

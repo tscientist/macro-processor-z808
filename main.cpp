@@ -28,7 +28,7 @@ int main(){
 
     cout << fileName + " aberto" << endl;
 
-    macro.createFile(fileName);
+    macro.createOutputFile(fileName);
 
   	input.close();
     

@@ -15,8 +15,8 @@ class MacroProcessor{
         MacroProcessor();
 
         bool readFile(ifstream *file);
-        
-		void createFile(string fileName);
+
+		void createOutputFile(string fileName);
 
 	protected:
 		vector<string> output;
