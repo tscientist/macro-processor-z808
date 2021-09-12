@@ -28,7 +28,7 @@ int main(){
 
       macro.passOne();
       macro.passTwo();
-
+      macro.fileEnding();
       macro.createOutputFile(fileName);
 
       input.close();

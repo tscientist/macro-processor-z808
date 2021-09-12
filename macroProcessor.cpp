@@ -16,7 +16,7 @@ bool MacroProcessor::readFile(ifstream *file){
     string retorno;
     if (file) { 
         while (file->get(each_character)) {
-            if (each_character == '\n' || each_character == ' ' || each_character == ',') { 
+            if (each_character == '\n' || each_character == ' ') { 
                 if (retorno != "") {
                     push(retorno);
                 }
@@ -40,9 +40,17 @@ void MacroProcessor::createOutputFile(string fileName){
     int j = 0;
 
     outFile.open("  " + fileName);
+    for (int i = 0; i < output.size(); i++){
+        if (output[i] == ","){
+            output[i-1].erase();
+            while(output[i] != "Inicio"){
+                output[i++].erase();
+            }
+        }
+    }
 
     for (int i = 0; i < output.size(); i++) {
-        if (output[i] != " " && output[i] != "" && output[i] != ";") {
+        if (output[i] != " " && output[i] != "" && output[i] != "Inicio") {
             outFile << output[i] << " ";
         }
     }
@@ -87,7 +95,7 @@ void MacroProcessor::passTwo() {
     for (int i = 0; i < output.size(); i++) {
         for (int j = 0; j < variableNames.size(); j++) {
             if (output[i] == variableNames[j]) {//verificação se tem virgula
-                cout << "variableNames[j] " + variableNames[j] << endl;
+                //cout << "variableNames[j] " + variableNames[j] << endl;
                 troca(i+1, j+1);
             }
         }
@@ -98,16 +106,16 @@ void MacroProcessor::troca(int i, int j){
     for (int k = j; k < variableNames.size(); k++){
         for (int t=0; t < macro.size(); t++){
             if (macro[t] == variableNames[k] && macro[t]!= "") {
-                cout << "macro[t] " + macro[t] << endl;
-                cout << "variableNames[k] " + variableNames[k] << endl;
-                cout << "output[i] " + output[i] << endl;
+                //cout << "macro[t] " + macro[t] << endl;
+                //cout << "variableNames[k] " + variableNames[k] << endl;
+                //cout << "output[i] " + output[i] << endl;
 
                 int n = output[i].length();
             
                 char char_array[n + 1];
             
                 strcpy(char_array, output[i].c_str());
-                cout << "char_array[i] " + char_array[4] << endl;
+                //cout << "char_array[i] " + char_array[4] << endl;
 
                 macro[t] = output[i];
             }
@@ -123,18 +131,20 @@ void MacroProcessor::fileEnding(){
     for (int i = 0; i < output.size(); i++){
         for (int j = 0; j < variableNames.size(); j++) {
             if (output[i] == variableNames[j]){
+                cout << "variableNames[k] " + variableNames[j] << endl;
+  
                 output[i].erase();
-                for(int k = j; k < macro.size(); k++) {
-                    if(macro[k] == ">") {
+                for (int k = j; k < macro.size(); k++) {
+                    if (macro[k] == "ENDM") {
                         t = 0;
                     }
-                    if (macro[k] == "_") {
+                    if (macro[k] == ",") {
                         t = 0;    
                     }
                     if (t == 1) {
                         output.push_back(macro[k]);
                     }
-                    if (macro[k] == "<") {
+                    if (macro[k] == ";;") {
                         t = 1;
                     }
                 }
