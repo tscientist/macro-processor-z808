@@ -9,28 +9,29 @@ using namespace std;
 string fileName = "teste_macro_z808.asm";
 
 int main(){
-	MacroProcessor macro; 
+      MacroProcessor macro; 
 
-	ifstream input;
+      ifstream input;
 
-	input.open(fileName);
- 	
-    if (!input){
-        cout << "Não foi possível abrir o arquivo!" << endl;
-        return 0;
-  	}
+      input.open(fileName);
 
-  	if (!macro.readFile(&input)){ 
-        cout << "Não foi possivel ler o arquivo! " << endl;
-  	}
+      if (!input){
+            cout << "Não foi possível abrir o arquivo!" << endl;
+            return 0;
+      }
 
-    cout << fileName + " aberto" << endl;
-    
-    macro.passOne();
+      if (!macro.readFile(&input)){ 
+            cout << "Não foi possivel ler o arquivo! " << endl;
+      }
 
-    macro.createOutputFile(fileName);
+      cout << fileName + " aberto" << endl;
 
-  	input.close();
-    
-	return 0;
+      macro.passOne();
+      macro.passTwo();
+
+      macro.createOutputFile(fileName);
+
+      input.close();
+
+      return 0;
 }
