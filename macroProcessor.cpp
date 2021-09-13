@@ -1,5 +1,3 @@
-// Construção das funções declaradas em processador_macros.hpp
-
 #include <iostream>
 #include <string.h>
 #include <fstream>
@@ -42,17 +40,7 @@ void MacroProcessor::push(string value) {
 }
 
 void MacroProcessor::createOutputFile(string fileName){
-    int j = 0;
-
     outFile.open("  " + fileName);
-    /*for (int i = 0; i < output.size(); i++){
-        if (output[i] == ","){
-            output[i-1].erase();
-            while(output[i] != "Inicio"){
-                output[i++].erase();
-            }
-        }
-    }*/
 
     for (int i = 0; i < output.size(); i++) {
         if (output[i] != " " && output[i] != "" ) {
@@ -74,13 +62,10 @@ void MacroProcessor::passOne() {
                 }
                 t++;
             }
-            /*int k = 0;
-            while (variableNames[k].size() != 0) {
-                cout << "variableNames " + variableNames[k] << endl;
-                k++;
-            }*/
+
             macro.push_back(input[i - 1]);
             input[i - 1].erase();
+            
             int flag = 0;
             for (int j = i; input[j] != "ENDM"; j++) {
                 if (input[j] != "MACRO") {
@@ -96,6 +81,7 @@ void MacroProcessor::passOne() {
             input[flag].erase();
         }   
     }
+
     for (int i = 0; i < input.size(); i++) {
         if (input[i] != " ") {
             if (input[i] != "MACRO") {
@@ -103,27 +89,6 @@ void MacroProcessor::passOne() {
             }
         }
     }
-    //ESTA SALVANDO O MACRO
-    /*int k = 0;
-    while (k < output.size()) {
-        cout << "output " + output[k] << endl;
-        k++;
-    }
-    k = 0;
-    while (k < input.size()) {
-        cout << "input " + input[k] << endl;
-        k++;
-    }
-    k = 0;
-    while (k < macro.size()) {
-        cout << "macro " + macro[k] << endl;
-        k++;
-    }
-    k = 0;
-    while (k < variableNames.size()) {
-        cout << "variableNames " + variableNames[k] << endl;
-        k++;
-    }*/
 }
 
 void MacroProcessor::passTwo() {
@@ -132,11 +97,6 @@ void MacroProcessor::passTwo() {
             //J é a posição do nome da variavel 
             //I é a posição onde é chamado a macro
             if (output[i] == variableNames[j]) {
-                //printf("variaveis %s   ", variableNames[j].c_str());
-                //printf("output %s\n", output[i].c_str());
-                //printf("num i %d   ", i+1);
-                //printf("num j %d\n", j+1);
-                
                 troca(i + 1, j + 1);
             }
         }
@@ -161,10 +121,10 @@ void MacroProcessor::troca(int i, int j){
 }
 
 void MacroProcessor::fileEnding() {
-    int position = 0, k = 0;
     vector<string> output_copy;
-    int var_inicio = 0, var_final = 0;
-    int var_size = 0, temp = 0, f;
+    int var_inicio = 0, var_final = 0, var_size = 0;
+    int k = 0;
+
     while (k < output.size()) {
         output_copy.push_back(output[k]);
         k++;
@@ -173,42 +133,29 @@ void MacroProcessor::fileEnding() {
     for (int i = 0; i < output.size(); i++) {
         for (int j = 0; j < variableNames.size(); j++) {
             if (output[i] == variableNames[j]) {
-                //printf("output i %s   ", output[i].c_str());
                 var_inicio = i;
-                f = i;
                 while (var_size < variableNames.size()) {
-                    output[f].erase();
-                    f++;
+                    output[var_inicio].erase();//Remove descrição dos parametros da macro
+
+                    var_inicio++;
                     var_size++;
-                    temp++;
-                    if (output[f] == ",") {
+
+                    if (output[var_inicio] == ",") {
                         var_size--;
                     }
-                }                                  
-                var_final = i + temp;
-                //printf("var_inicio %d   ", var_inicio);
-                //printf("var_final %d\n   ", var_final);
-                //printf("output[f] %s   ", output[f].c_str());
+                }                   
+                var_size++;
+                var_size += i;
 
                 for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
-                    output[f] = macro[k];
-                    //printf("output[%d] %s   \n", f, output[f].c_str());
-                    f++;
+                    output[var_inicio] = macro[k];
+                    var_inicio++;
                 }
-
-                //return;
             }
         } 
     }
-    for (int k = var_final; k < output_copy.size(); k++) { //Adiciona resto do código
-        output.push_back(output_copy[k]);
-        //printf("output[%d] %s   \n", f, output[f].c_str());
-        f++;
-    }
 
-    k = 0;
-    while (k < output.size()) {
-        printf("output[%d] %s   \n", k, output[k].c_str());
-        k++;
+    for (int k = var_size; k < output_copy.size(); k++) { //Adiciona resto do código
+        output.push_back(output_copy[k]);
     }
 }
