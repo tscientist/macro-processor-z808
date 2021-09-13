@@ -164,20 +164,18 @@ void MacroProcessor::fileEnding() {
     int position = 0, k = 0;
     vector<string> output_copy;
     int var_inicio = 0, var_final = 0;
-    int var_size = 0, temp = 0;
+    int var_size = 0, temp = 0, f;
     while (k < output.size()) {
         output_copy.push_back(output[k]);
-        //cout << "output_copy " + output_copy[k] << endl;
-
         k++;
     }
 
-    for (int i = 0; i < output.size(); i++){
+    for (int i = 0; i < output.size(); i++) {
         for (int j = 0; j < variableNames.size(); j++) {
-            if (output[i] == variableNames[j]){
+            if (output[i] == variableNames[j]) {
                 //printf("output i %s   ", output[i].c_str());
                 var_inicio = i;
-                int f = i;
+                f = i;
                 while (var_size < variableNames.size()) {
                     output[f].erase();
                     f++;
@@ -194,22 +192,23 @@ void MacroProcessor::fileEnding() {
 
                 for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
                     output[f] = macro[k];
-                    printf("output[%d] %s   \n", f, output[f].c_str());
+                    //printf("output[%d] %s   \n", f, output[f].c_str());
                     f++;
                 }
 
-                for (int k = var_final; k < output_copy.size(); k++) { //Adiciona resto do código
-                    output[f] = output_copy[k];
-                    printf("output[%d] %s   \n", f, output[f].c_str());
-                    f++;
-                }
-                return;
+                //return;
             }
         } 
     }
-    /*k = 0;
+    for (int k = var_final; k < output_copy.size(); k++) { //Adiciona resto do código
+        output.push_back(output_copy[k]);
+        //printf("output[%d] %s   \n", f, output[f].c_str());
+        f++;
+    }
+
+    k = 0;
     while (k < output.size()) {
         printf("output[%d] %s   \n", k, output[k].c_str());
         k++;
-    }*/
+    }
 }

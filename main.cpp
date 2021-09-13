@@ -16,15 +16,15 @@ int main(){
       input.open(fileName);
 
       if (!input){
-            cout << "Não foi possível abrir o arquivo!" << endl;
+            printf("Não foi possivel ler o arquivo! \n");
             return 0;
       }
 
       if (!macro.readFile(&input)){ 
-            cout << "Não foi possivel ler o arquivo! " << endl;
+            printf("Não foi possivel ler o arquivo! \n");
       }
 
-      cout << fileName + " aberto" << endl;
+      printf("%s aberto.\n", fileName.c_str());
 
       macro.passOne();
       macro.passTwo();
