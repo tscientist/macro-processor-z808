@@ -104,7 +104,7 @@ void MacroProcessor::passOne() {
         }
     }
     //ESTA SALVANDO O MACRO
-    int k = 0;
+    /*int k = 0;
     while (k < output.size()) {
         cout << "output " + output[k] << endl;
         k++;
@@ -123,7 +123,7 @@ void MacroProcessor::passOne() {
     while (k < variableNames.size()) {
         cout << "variableNames " + variableNames[k] << endl;
         k++;
-    }
+    }*/
 }
 
 void MacroProcessor::passTwo() {
@@ -137,7 +137,7 @@ void MacroProcessor::passTwo() {
                 //printf("num i %d   ", i+1);
                 //printf("num j %d\n", j+1);
                 
-                troca(i+1, j+1);
+                troca(i + 1, j + 1);
             }
         }
     } 
@@ -148,12 +148,14 @@ void MacroProcessor::troca(int i, int j){
         for (int t = 0; t < macro.size(); t++) {
             if (macro[t] == variableNames[k] && macro[t] != "") {
                 macro[t] = output[i];        
-                //printf("variaveis %s   ", variableNames[k].c_str());
-                //printf("macro %s\n", macro[t].c_str());
-            }
-            if (i < output.size()-1){
+            }    
+        }
+        if (i < output.size()-1) {
+            if (output[i + 1] == ",") {
+                i += 2;
+            } else {
                 i++;
-            }       
+            }
         }
     }
 }
