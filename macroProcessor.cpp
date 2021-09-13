@@ -81,27 +81,49 @@ void MacroProcessor::passOne() {
             }*/
             macro.push_back(input[i - 1]);
             input[i - 1].erase();
-
+            int flag = 0;
             for (int j = i; input[j] != "ENDM"; j++) {
-                macro.push_back(input[j]);
-                input[j].erase();
-                t = j;
+                if (input[j] != "MACRO") {
+                    macro.push_back(input[j]);
+                    input[j].erase();
+                    t = j;
+                } else {
+                    flag = j;
+                }
             }
 
-            input[t+1].erase();
+            input[t + 1].erase();
+            input[flag].erase();
         }   
     }
     for (int i = 0; i < input.size(); i++) {
         if (input[i] != " ") {
-            output.push_back(input[i]);
+            if (input[i] != "MACRO") {
+                output.push_back(input[i]);
+            }
         }
     }
     //ESTA SALVANDO O MACRO
-    /*int k = 0;
+    int k = 0;
     while (k < output.size()) {
         cout << "output " + output[k] << endl;
         k++;
-    }*/
+    }
+    k = 0;
+    while (k < input.size()) {
+        cout << "input " + input[k] << endl;
+        k++;
+    }
+    k = 0;
+    while (k < macro.size()) {
+        cout << "macro " + macro[k] << endl;
+        k++;
+    }
+    k = 0;
+    while (k < variableNames.size()) {
+        cout << "variableNames " + variableNames[k] << endl;
+        k++;
+    }
 }
 
 void MacroProcessor::passTwo() {
@@ -126,8 +148,8 @@ void MacroProcessor::troca(int i, int j){
         for (int t = 0; t < macro.size(); t++) {
             if (macro[t] == variableNames[k] && macro[t] != "") {
                 macro[t] = output[i];        
-                printf("variaveis %s   ", variableNames[k].c_str());
-                printf("macro %s\n", macro[t].c_str());
+                //printf("variaveis %s   ", variableNames[k].c_str());
+                //printf("macro %s\n", macro[t].c_str());
             }
             if (i < output.size()-1){
                 i++;
