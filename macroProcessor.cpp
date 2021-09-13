@@ -161,31 +161,62 @@ void MacroProcessor::troca(int i, int j){
 }
 
 void MacroProcessor::fileEnding() {
-    int position = 0;
-    int k = 0;
-    while (k < macro.size()) {
-        cout << "macro " + macro[k] << endl;
+    int position = 0, k = 0;
+    vector<string> output_copy;
+    int var_inicio = 0, var_final = 0;
+    int var_size = 0;
+    while (k < output.size()) {
+        output_copy.push_back(output[k]);
+        //cout << "output_copy " + output_copy[k] << endl;
+
         k++;
     }
 
     for (int i = 0; i < output.size(); i++){
         for (int j = 0; j < variableNames.size(); j++) {
             if (output[i] == variableNames[j]){
-                output[i].erase();
-                output[i + 1].erase();
-                output[i + 2].erase();
-                output[i + 3].erase();
+                //printf("output i %s   ", output[i].c_str());
+                //printf("output 2 %s   ", output[i + 1].c_str());
 
-                for (int k = 5; k < macro.size(); k++) {
-                    output.push_back(macro[k]);
+                printf("variableNames %s \n", variableNames[j].c_str());
+                var_inicio = i;
+
+                while (var_size < variableNames.size()) {
+                    printf("OUTPUT %s   ", output[i].c_str());
+
+                    output[i].erase();
+                    i++;
+                    var_size++;
+
+                    if (output[i] == ",") {
+                        var_size--;
+                    }
+                    printf("output %s\n", output[i].c_str());
+
                 }
+                                   
+        
+                var_final = i ;
+
+                while (var_final < output_copy.size()) {
+                    output[var_inicio] = output_copy[var_final];
+                    //output_copy.push_back(output[k]);
+                    //cout << "output[var_inicio] " + output[var_inicio] << endl;
+                    //cout << "output_copy[var_final] " + output_copy[var_final] << endl;
+
+                    var_final++;
+                    var_inicio++;
+                }
+                /*for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
+                    output.push_back(macro[k]);
+                }*/
                 //return;
             }
         } 
     }
-    k = 0;
+   /* k = 0;
     while (k < output.size()) {
         cout << "output " + output[k] << endl;
         k++;
-    }
+    }*/
 }
