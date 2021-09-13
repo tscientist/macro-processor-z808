@@ -16,11 +16,16 @@ bool MacroProcessor::readFile(ifstream *file){
     string retorno;
     if (file) { 
         while (file->get(each_character)) {
-            if (each_character == '\n' || each_character == ' ') { 
+
+            if (each_character == '\n' || each_character == ' ' || each_character == ',') { 
                 if (retorno != "") {
-                    push(retorno);
-                }
-                          
+                    if (each_character == ','){
+                        push(retorno);
+                        push(",");
+                    } else {
+                        push(retorno);
+                    }
+                }         
                 retorno = ""; 
             } else {
                 retorno += each_character; 
@@ -50,7 +55,7 @@ void MacroProcessor::createOutputFile(string fileName){
     }
 
     for (int i = 0; i < output.size(); i++) {
-        if (output[i] != " " && output[i] != "" && output[i] != "Inicio") {
+        if (output[i] != " " && output[i] != "" ) {
             outFile << output[i] << " ";
         }
     }
@@ -63,8 +68,10 @@ void MacroProcessor::passOne() {
             t = i + 1;
             variableNames.push_back(input[i - 1]);
 
-            while (input[t] != ";;") {
-                variableNames.push_back(input[t]);
+            while (input[t] != ";;") { 
+                if (input[t] != ",") {
+                    variableNames.push_back(input[t]);
+                }
                 t++;
             }
             /*int k = 0;
@@ -80,7 +87,7 @@ void MacroProcessor::passOne() {
                 input[j].erase();
                 t = j;
             }
-            macro.push_back("ENDM");
+
             input[t+1].erase();
         }   
     }
@@ -89,13 +96,25 @@ void MacroProcessor::passOne() {
             output.push_back(input[i]);
         }
     }
+    //ESTA SALVANDO O MACRO
+    /*int k = 0;
+    while (k < output.size()) {
+        cout << "output " + output[k] << endl;
+        k++;
+    }*/
 }
 
 void MacroProcessor::passTwo() {
     for (int i = 0; i < output.size(); i++) {
         for (int j = 0; j < variableNames.size(); j++) {
-            if (output[i] == variableNames[j]) {//verificação se tem virgula
-                //cout << "variableNames[j] " + variableNames[j] << endl;
+            //J é a posição do nome da variavel 
+            //I é a posição onde é chamado a macro
+            if (output[i] == variableNames[j]) {
+                //printf("variaveis %s   ", variableNames[j].c_str());
+                //printf("output %s\n", output[i].c_str());
+                //printf("num i %d   ", i+1);
+                //printf("num j %d\n", j+1);
+                
                 troca(i+1, j+1);
             }
         }
@@ -104,24 +123,15 @@ void MacroProcessor::passTwo() {
 
 void MacroProcessor::troca(int i, int j){
     for (int k = j; k < variableNames.size(); k++){
-        for (int t=0; t < macro.size(); t++){
-            if (macro[t] == variableNames[k] && macro[t]!= "") {
-                //cout << "macro[t] " + macro[t] << endl;
-                //cout << "variableNames[k] " + variableNames[k] << endl;
-                //cout << "output[i] " + output[i] << endl;
-
-                int n = output[i].length();
-            
-                char char_array[n + 1];
-            
-                strcpy(char_array, output[i].c_str());
-                //cout << "char_array[i] " + char_array[4] << endl;
-
-                macro[t] = output[i];
+        for (int t = 0; t < macro.size(); t++) {
+            if (macro[t] == variableNames[k] && macro[t] != "") {
+                macro[t] = output[i];        
+                printf("variaveis %s   ", variableNames[k].c_str());
+                printf("macro %s\n", macro[t].c_str());
             }
-        }
-        if (i < output.size()-1) {
-            i++;
+            if (i < output.size()-1){
+                i++;
+            }       
         }
     }
 }
@@ -130,26 +140,29 @@ void MacroProcessor::fileEnding(){
     int t = 0;
     for (int i = 0; i < output.size(); i++){
         for (int j = 0; j < variableNames.size(); j++) {
-            if (output[i] == variableNames[j]){
-                cout << "variableNames[k] " + variableNames[j] << endl;
+            //cout << "d[k] " + output[i] << endl;
+
+           /* if (output[i] == variableNames[j]){
   
                 output[i].erase();
                 for (int k = j; k < macro.size(); k++) {
+
                     if (macro[k] == "ENDM") {
                         t = 0;
                     }
-                    if (macro[k] == ",") {
+                  if (macro[k] == ",") {
                         t = 0;    
                     }
                     if (t == 1) {
                         output.push_back(macro[k]);
                     }
+
                     if (macro[k] == ";;") {
                         t = 1;
                     }
-                }
-                return;
+                }*/
+                //return;
             }
-        }
+        
     } 
 }
