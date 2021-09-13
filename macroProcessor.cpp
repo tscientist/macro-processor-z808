@@ -164,7 +164,7 @@ void MacroProcessor::fileEnding() {
     int position = 0, k = 0;
     vector<string> output_copy;
     int var_inicio = 0, var_final = 0;
-    int var_size = 0;
+    int var_size = 0, temp = 0;
     while (k < output.size()) {
         output_copy.push_back(output[k]);
         //cout << "output_copy " + output_copy[k] << endl;
@@ -176,40 +176,35 @@ void MacroProcessor::fileEnding() {
         for (int j = 0; j < variableNames.size(); j++) {
             if (output[i] == variableNames[j]){
                 //printf("output i %s   ", output[i].c_str());
-                //printf("output 2 %s   ", output[i + 1].c_str());
-
-                printf("variableNames %s \n", variableNames[j].c_str());
                 var_inicio = i;
-
+                int f = i;
                 while (var_size < variableNames.size()) {
-                    printf("OUTPUT %s   ", output[i].c_str());
-
-                    output[i].erase();
-                    i++;
+                    output[f].erase();
+                    f++;
                     var_size++;
-
-                    if (output[i] == ",") {
+                    temp++;
+                    if (output[f] == ",") {
                         var_size--;
                     }
-                    printf("output %s\n", output[i].c_str());
-
-                }
-                                   
+                }                                  
         
-                var_final = i ;
+                var_final = i + temp;
+                int z = i;
+                printf("var_inicio %d   ", var_inicio);
+                printf("var_final %d\n   ", var_final);
 
-                while (var_final < output_copy.size()) {
-                    output[var_inicio] = output_copy[var_final];
-                    //output_copy.push_back(output[k]);
-                    //cout << "output[var_inicio] " + output[var_inicio] << endl;
-                    //cout << "output_copy[var_final] " + output_copy[var_final] << endl;
+                /*while (var_final < output_copy.size()) {
+                    output[i] = output_copy[var_final];
+                    printf("output i %s   ", output[i].c_str());
 
                     var_final++;
-                    var_inicio++;
-                }
-                /*for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
-                    output.push_back(macro[k]);
+                    i++;
                 }*/
+                for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
+                    output[z] = macro[k];
+                    z++;
+                    printf("output i %s   \n", output[z].c_str());
+                }
                 //return;
             }
         } 
