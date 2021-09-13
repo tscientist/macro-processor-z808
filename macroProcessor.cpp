@@ -187,31 +187,29 @@ void MacroProcessor::fileEnding() {
                         var_size--;
                     }
                 }                                  
-        
                 var_final = i + temp;
-                int z = i;
-                printf("var_inicio %d   ", var_inicio);
-                printf("var_final %d\n   ", var_final);
+                //printf("var_inicio %d   ", var_inicio);
+                //printf("var_final %d\n   ", var_final);
+                //printf("output[f] %s   ", output[f].c_str());
 
-                /*while (var_final < output_copy.size()) {
-                    output[i] = output_copy[var_final];
-                    printf("output i %s   ", output[i].c_str());
-
-                    var_final++;
-                    i++;
-                }*/
                 for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
-                    output[z] = macro[k];
-                    z++;
-                    printf("output i %s   \n", output[z].c_str());
+                    output[f] = macro[k];
+                    printf("output[%d] %s   \n", f, output[f].c_str());
+                    f++;
                 }
-                //return;
+
+                for (int k = var_final; k < output_copy.size(); k++) { //Adiciona resto do código
+                    output[f] = output_copy[k];
+                    printf("output[%d] %s   \n", f, output[f].c_str());
+                    f++;
+                }
+                return;
             }
         } 
     }
-   /* k = 0;
+    /*k = 0;
     while (k < output.size()) {
-        cout << "output " + output[k] << endl;
+        printf("output[%d] %s   \n", k, output[k].c_str());
         k++;
     }*/
 }
