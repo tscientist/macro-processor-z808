@@ -17,11 +17,19 @@ bool MacroProcessor::readFile(ifstream *file){
 
             if (each_character == '\n' || each_character == ' ' || each_character == ',') { 
                 if (retorno != "") {
-                    if (each_character == ','){
+                    switch (each_character)
+                    {
+                    case '\n':
+                        push(retorno);
+                        push("\n");
+                    break;
+                    case ',':
                         push(retorno);
                         push(",");
-                    } else {
+                    break;                    
+                    default:
                         push(retorno);
+                        break;
                     }
                 }         
                 retorno = ""; 
