@@ -45,14 +45,14 @@ void MacroProcessor::createOutputFile(string fileName){
     int j = 0;
 
     outFile.open("  " + fileName);
-    for (int i = 0; i < output.size(); i++){
+    /*for (int i = 0; i < output.size(); i++){
         if (output[i] == ","){
             output[i-1].erase();
             while(output[i] != "Inicio"){
                 output[i++].erase();
             }
         }
-    }
+    }*/
 
     for (int i = 0; i < output.size(); i++) {
         if (output[i] != " " && output[i] != "" ) {
@@ -160,33 +160,32 @@ void MacroProcessor::troca(int i, int j){
     }
 }
 
-void MacroProcessor::fileEnding(){
-    int t = 0;
+void MacroProcessor::fileEnding() {
+    int position = 0;
+    int k = 0;
+    while (k < macro.size()) {
+        cout << "macro " + macro[k] << endl;
+        k++;
+    }
+
     for (int i = 0; i < output.size(); i++){
         for (int j = 0; j < variableNames.size(); j++) {
-            //cout << "d[k] " + output[i] << endl;
-
-           /* if (output[i] == variableNames[j]){
-  
+            if (output[i] == variableNames[j]){
                 output[i].erase();
-                for (int k = j; k < macro.size(); k++) {
+                output[i + 1].erase();
+                output[i + 2].erase();
+                output[i + 3].erase();
 
-                    if (macro[k] == "ENDM") {
-                        t = 0;
-                    }
-                  if (macro[k] == ",") {
-                        t = 0;    
-                    }
-                    if (t == 1) {
-                        output.push_back(macro[k]);
-                    }
-
-                    if (macro[k] == ";;") {
-                        t = 1;
-                    }
-                }*/
+                for (int k = 5; k < macro.size(); k++) {
+                    output.push_back(macro[k]);
+                }
                 //return;
             }
-        
-    } 
+        } 
+    }
+    k = 0;
+    while (k < output.size()) {
+        cout << "output " + output[k] << endl;
+        k++;
+    }
 }
