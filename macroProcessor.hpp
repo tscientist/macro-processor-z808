@@ -20,8 +20,6 @@ class MacroProcessor{
 
         void passOne();
 
-		void passTwo();		
-
 		void troca(int i, int j);
 
 		void fileEnding();		

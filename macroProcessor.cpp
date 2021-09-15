@@ -70,13 +70,13 @@ void MacroProcessor::passOne() {
                 }
                 t++;
             }
+
             int l = t++;
             while (input[l] != "mov") { 
-                printf("input[%d]: %s \n", l, input[l].c_str());
                 input[l].erase();
-                printf("input[%d]: %s \n", l, input[l].c_str());
                 l++;
             }
+
             macro.push_back(input[i - 1]);
             input[i - 1].erase();
             
@@ -92,7 +92,7 @@ void MacroProcessor::passOne() {
             }
 
             input[t + 1].erase();
-            input[flag].erase();
+            input[flag].erase();//Revisar essa parte
         }   
     }
 
@@ -103,9 +103,7 @@ void MacroProcessor::passOne() {
             }
         }
     }
-}
 
-void MacroProcessor::passTwo() {
     for (int i = 0; i < output.size(); i++) {
         for (int j = 0; j < variableNames.size(); j++) {
             //J é a posição do nome da variavel 
@@ -119,8 +117,13 @@ void MacroProcessor::passTwo() {
 
 void MacroProcessor::troca(int i, int j){
     for (int k = j; k < variableNames.size(); k++){
+        printf("variavel[%d] %s outupt[%d] %s \n", k, variableNames[k].c_str(), i, output[i].c_str());
+
         for (int t = 0; t < macro.size(); t++) {
+            printf("variavel[%d] %s macro[%d] %s \n", k, variableNames[k].c_str(), i, macro[t].c_str());
+
             if (macro[t] == variableNames[k] && macro[t] != "") {
+                //printf("macro %s variavel %s outupt %s \n", macro[t].c_str(), variableNames[k].c_str(), output[i].c_str());
                 macro[t] = output[i];        
             }    
         }
@@ -145,28 +148,27 @@ void MacroProcessor::fileEnding() {
     }
 
     for (int i = 0; i < output.size(); i++) {
-        for (int j = 0; j < variableNames.size(); j++) {
-            if (output[i] == variableNames[j]) {
-                var_inicio = i;
-                while (var_size < variableNames.size()) {
-                    output[var_inicio].erase();//Remove descrição dos parametros da macro
+        if (output[i] == variableNames[0]) {
+            var_inicio = i;
+            while (var_size < variableNames.size()) {
+                output[var_inicio].erase();//Remove descrição dos parametros da macro
 
-                    var_inicio++;
-                    var_size++;
-
-                    if (output[var_inicio] == ",") {
-                        var_size--;
-                    }
-                }                   
+                var_inicio++;
                 var_size++;
-                var_size += i;
 
-                for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
-                    output[var_inicio] = macro[k];
-                    var_inicio++;
+                if (output[var_inicio] == ",") {
+                    var_size--;
                 }
+            }                   
+            var_size++;
+            var_size += i;
+
+            for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
+                output[var_inicio] = macro[k];
+                var_inicio++;
             }
-        } 
+        }
+        
     }
 
     for (int k = var_size; k < output_copy.size(); k++) { //Adiciona resto do código
