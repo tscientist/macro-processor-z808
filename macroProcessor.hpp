@@ -20,7 +20,7 @@ class MacroProcessor{
 
         void passOne();
 
-		void troca(int i, int j);
+		void troca(int i, int j, vector<string> v);
 
 		void fileEnding(string fileName);		
 

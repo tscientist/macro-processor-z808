@@ -103,26 +103,13 @@ void MacroProcessor::passOne() {
             }
         }
     }
-
-    for (int i = 0; i < output.size(); i++) {
-        for (int j = 0; j < variableNames.size(); j++) {
-            //J é a posição do nome da variavel 
-            //I é a posição onde é chamado a macro
-            if (output[i] == variableNames[j]) {
-                troca(i + 1, j + 1);
-            }
-        }
-    } 
 }
 
-void MacroProcessor::troca(int i, int j){
-    for (int k = j; k < variableNames.size(); k++){
-        printf("variavel[%d] %s outupt[%d] %s \n", k, variableNames[k].c_str(), i, output[i].c_str());
-
+void MacroProcessor::troca(int i, int j, vector<string> variables){
+    for (int k = 1; k < variables.size(); k++){
         for (int t = 0; t < macro.size(); t++) {
-            printf("variavel[%d] %s macro[%d] %s \n", k, variableNames[k].c_str(), i, macro[t].c_str());
 
-            if (macro[t] == variableNames[k] && macro[t] != "") {
+            if (macro[t] == variables[k] && macro[t] != "") {
                 //printf("macro %s variavel %s outupt %s \n", macro[t].c_str(), variableNames[k].c_str(), output[i].c_str());
                 macro[t] = output[i];        
             }    
@@ -139,16 +126,29 @@ void MacroProcessor::troca(int i, int j){
 
 void MacroProcessor::fileEnding(string fileName) {
     int i = 0, flag = 1;
-
+    int p = 0;
     vector<string> output_final;
+    vector<string> new_variables;
 
     while (output[i] != "END")
     {
         if (output[i] == variableNames[0]) {
-            while (output[i] != "\n") {
-                i++;
-            } 
+            if (flag == 1) {
+                flag = 0;
+                //J é a posição do nome da variavel 
+                //I é a posição onde é chamado a macro
+                troca(i, 1, variableNames);              
+            } else {
+                while (output[i] != "\n") {
+                    if (output[i] != ",") {
+                        new_variables.push_back(output[i]);            
+                    }
+                    i++;
+                }   
+                troca(i + 1, 1, new_variables);        
+            }
 
+            
             for (int k = 4; k < macro.size(); k++) { //verifica virgula
                 output_final.push_back(macro[k]);
             }
