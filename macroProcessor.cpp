@@ -73,11 +73,15 @@ void MacroProcessor::passOne() {
 
             int l = t++;
             while (input[l] != "mov") { 
+                printf("input[] %s \n",input[l].c_str());
+
                 input[l].erase();
                 l++;
             }
 
             macro.push_back(input[i - 1]);
+            printf("input[i - 1][] %s \n",input[i - 1].c_str());
+
             input[i - 1].erase();
             
             int flag = 0;
