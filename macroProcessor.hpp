@@ -22,9 +22,7 @@ class MacroProcessor{
 
 		void troca(int i, int j);
 
-		void fileEnding();		
-
-		void createOutputFile(string fileName);
+		void fileEnding(string fileName);		
 
 	protected:
 		vector<string> output;

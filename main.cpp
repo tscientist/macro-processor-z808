@@ -27,8 +27,7 @@ int main(){
       printf("%s aberto.\n", fileName.c_str());
 
       macro.passOne();
-      macro.fileEnding();
-      macro.createOutputFile(fileName);
+      macro.fileEnding(fileName);
 
       input.close();
 

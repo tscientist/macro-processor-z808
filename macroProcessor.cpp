@@ -47,15 +47,15 @@ void MacroProcessor::push(string value) {
     input.push_back(value);
 }
 
-void MacroProcessor::createOutputFile(string fileName){
-    outFile.open("  " + fileName);
+// void MacroProcessor::createOutputFile(string fileName){
+//     outFile.open("  " + fileName);
 
-    for (int i = 0; i < output.size(); i++) {
-        if (output[i] != " " && output[i] != "" ) {
-            outFile << output[i] << " ";
-        }
-    }
-}
+//     for (int i = 0; i < output.size(); i++) {
+//         if (output[i] != " " && output[i] != "" ) {
+//             outFile << output[i] << " ";
+//         }
+//     }
+// }
 
 void MacroProcessor::passOne() {
     int t = 0;
@@ -137,41 +137,35 @@ void MacroProcessor::troca(int i, int j){
     }
 }
 
-void MacroProcessor::fileEnding() {
-    vector<string> output_copy;
-    int var_inicio = 0, var_final = 0, var_size = 0;
-    int k = 0;
+void MacroProcessor::fileEnding(string fileName) {
+    int i = 0, flag = 1;
 
-    while (k < output.size()) {
-        output_copy.push_back(output[k]);
-        k++;
-    }
+    vector<string> output_final;
 
-    for (int i = 0; i < output.size(); i++) {
+    while (output[i] != "END")
+    {
         if (output[i] == variableNames[0]) {
-            var_inicio = i;
-            while (var_size < variableNames.size()) {
-                output[var_inicio].erase();//Remove descrição dos parametros da macro
+            while (output[i] != "\n") {
+                i++;
+            } 
 
-                var_inicio++;
-                var_size++;
-
-                if (output[var_inicio] == ",") {
-                    var_size--;
-                }
-            }                   
-            var_size++;
-            var_size += i;
-
-            for (int k = 5; k < macro.size(); k++) { //Adiciona macros no final do código
-                output[var_inicio] = macro[k];
-                var_inicio++;
+            for (int k = 4; k < macro.size(); k++) { //verifica virgula
+                output_final.push_back(macro[k]);
             }
+        } else {
+            output_final.push_back(output[i]);
+            i++;
         }
-        
     }
 
-    for (int k = var_size; k < output_copy.size(); k++) { //Adiciona resto do código
-        output.push_back(output_copy[k]);
+    output_final.push_back(output[i]);
+    output_final.push_back(output[i + 1]);
+
+    outFile.open("  " + fileName);
+
+    for (int i = 0; i < output_final.size(); i++) {
+        if (output_final[i] != " " && output_final[i] != "" ) {
+            outFile << output_final[i] << " ";
+        }
     }
 }
