@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdio.h>
 #include "macroProcessor.hpp"
+#include <string>
 
 using namespace std;
 
@@ -108,9 +109,7 @@ void MacroProcessor::passOne() {
 void MacroProcessor::troca(int i, int j, vector<string> variables){
     for (int k = 1; k < variables.size(); k++){
         for (int t = 0; t < macro.size(); t++) {
-
             if (macro[t] == variables[k] && macro[t] != "") {
-                //printf("macro %s variavel %s outupt %s \n", macro[t].c_str(), variableNames[k].c_str(), output[i].c_str());
                 macro[t] = output[i];        
             }    
         }
@@ -125,8 +124,7 @@ void MacroProcessor::troca(int i, int j, vector<string> variables){
 }
 
 void MacroProcessor::fileEnding(string fileName) {
-    int i = 0, flag = 1;
-    int p = 0;
+    int i = 0, flag = 1, p = 0;
     vector<string> output_final;
     vector<string> new_variables;
 
@@ -137,18 +135,27 @@ void MacroProcessor::fileEnding(string fileName) {
                 flag = 0;
                 //J é a posição do nome da variavel 
                 //I é a posição onde é chamado a macro
-                troca(i, 1, variableNames);              
-            } else {
+                troca(i + 1, 1, variableNames);  
+
                 while (output[i] != "\n") {
                     if (output[i] != ",") {
-                        new_variables.push_back(output[i]);            
+                        new_variables.push_back(output[i]);           
+                    }
+                    i++;
+                }    
+            } else {
+                troca(i + 1, 1, new_variables);        
+                int o = 0;           
+
+                while (output[i] != "\n") {
+                    if (output[i] != ",") {
+                        new_variables[o] = output[i];
+                        o++;   
                     }
                     i++;
                 }   
-                troca(i + 1, 1, new_variables);        
             }
 
-            
             for (int k = 4; k < macro.size(); k++) { //verifica virgula
                 output_final.push_back(macro[k]);
             }
