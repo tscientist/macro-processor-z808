@@ -7,7 +7,7 @@ Dados ENDS
 Codigo SEGMENT
 ASSUME CS: Codigo
 ASSUME DS: Dados
-SomaMem MACRO Mem1, Mem2 ;; Soma duas variáveis
+SomaMem MACRO Mem1, Mem2 
 mov  AX,Mem1
 push AX
 mov  AX,Mem2

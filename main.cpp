@@ -22,6 +22,7 @@ int main(){
 
       if (!macro.readFile(&input)){ 
             printf("Não foi possivel ler o arquivo! \n");
+            return 0;
       }
 
       printf("%s aberto.\n", fileName.c_str());
