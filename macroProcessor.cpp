@@ -152,8 +152,16 @@ void MacroProcessor::fileEnding(string fileName) {
                     i++;
                 }   
             }
+            int cont_inicio_macro = 0;
 
-            for (int k = 4; k < macro.size(); k++) { //Alterar valor de k para começar no final da linha
+            for (int k = 0; k < macro.size(); k++) { //Pega inicio da macro sem parametros
+                if (macro[k] == "") {
+                    cont_inicio_macro = k;
+                    break;
+                }
+            }
+            
+            for (int k = cont_inicio_macro; k < macro.size(); k++) { //Alterar valor de k para começar no final da linha
                 output_final.push_back(macro[k]);
             }
         } else {
