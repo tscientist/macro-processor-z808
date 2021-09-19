@@ -56,26 +56,21 @@ void MacroProcessor::passOne() {
             t = i + 1;
             variableNames.push_back(input[i - 1]); //Adiciona chamada da macro
 
-            //Precisa tratar comentario
-            // while (input[t] != ";;" || input[t] != "\n") { 
-            //     if (input[t] != ",") {
-            //         variableNames.push_back(input[t]);
-            //     }
-            //     input[t].erase();
-            //     t++;
-            // }
+            while (input[t] != "\n") { //Salva npmes de variaveis
+                if (input[t] == ";;") {//Sai do while se existe comentario
+                    break;
+                }
 
-            // int l = t++;
-            while (input[t] != "\n") { 
-                if (input[t] == ";;") verifica_comentario = 1;
-
-                if (input[t] != "," && verifica_comentario == 0) {
-                    printf("input %s \n",input[t].c_str());
+                if (input[t] != ",") {
                     variableNames.push_back(input[t]);
-                } else {
-                    input[t].erase();   
                 }
                 t++;
+            }
+
+            int l = t;
+            while (input[l] != "\n") { 
+                input[l].erase();
+                l++;
             }
 
             macro.push_back(input[i - 1]);
